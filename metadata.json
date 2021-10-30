@@ -1,0 +1,8 @@
+{
+  "name": "MSI RGB Control",
+  "description": "Extension for controlling the backlighting of the keyboard of MSI notebooks",
+  "uuid": "kve1989@gmail.com",
+  "shell-version": [
+    "41"
+  ]
+}
