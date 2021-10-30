@@ -21,7 +21,7 @@
 
 const GETTEXT_DOMAIN = 'my-indicator-extension';
 
-const { GObject, GLib, St } = imports.gi;
+const { GObject, GLib, Gio, St } = imports.gi;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Main = imports.ui.main;
@@ -33,9 +33,6 @@ const _ = ExtensionUtils.gettext;
 
 const models = ["GE63", "GE73", "GE75", "GS63", "GS73", "GS75", "GX63", "GT63", "GL63", "GS65"];
 const presets = ["aqua", "chakra", "default", "disco", "drain", "freeway", "rainbow-split", "roulette"];
-
-function getModels() {}
-function getPresets() {}
 
 function run_command(command) {
     // https://gjs.guide/guides/gio/subprocesses.html#synchronous-execution
@@ -67,7 +64,7 @@ class Indicator extends PanelMenu.Button {
         super._init(0.0, _('My Shiny Indicator'));
 
         this.add_child(new St.Icon({
-            icon_name: 'face-smile-symbolic',
+            gicon: Gio.icon_new_for_string(Me.dir.get_path() + '/icons/msi.svg'),
             style_class: 'system-status-icon',
         }));
 
@@ -80,12 +77,6 @@ class Indicator extends PanelMenu.Button {
             });
             presetsMenu.menu.addMenuItem(presetItem);
         }
-
-        // let item = new PopupMenu.PopupMenuItem(_('Show Notification'));
-        // item.connect('activate', () => {
-        //     Main.notify(_('Whatʼs up, folks?'));
-        // });
-        // this.menu.addMenuItem(item);
     }
 });
 
@@ -99,7 +90,6 @@ class Extension {
     enable() {
         this._indicator = new Indicator();
         Main.panel.addToStatusArea(this._uuid, this._indicator);
-        Main.notify(Me.metadata.name,'Расширение запущено...');
     }
 
     disable() {
