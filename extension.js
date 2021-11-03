@@ -33,6 +33,7 @@ const _ = ExtensionUtils.gettext;
 
 const models = ["GE63", "GE73", "GE75", "GS63", "GS73", "GS75", "GX63", "GT63", "GL63", "GS65"];
 const presets = ["aqua", "chakra", "default", "disco", "drain", "freeway", "rainbow-split", "roulette"];
+const colors = ["#ff0000", "#ffa500", "#ffff00", "#008000", "#0000ff", "#4b0082", "#ee82ee", "#000000"];
 
 function run_command(command) {
     // https://gjs.guide/guides/gio/subprocesses.html#synchronous-execution
