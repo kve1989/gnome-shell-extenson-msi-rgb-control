@@ -33,7 +33,20 @@ const _ = ExtensionUtils.gettext;
 
 const models = ["GE63", "GE73", "GE75", "GS63", "GS73", "GS75", "GX63", "GT63", "GL63", "GS65"];
 const presets = ["aqua", "chakra", "default", "disco", "drain", "freeway", "rainbow-split", "roulette"];
-const colors = ["#ff0000", "#ffa500", "#ffff00", "#008000", "#0000ff", "#4b0082", "#ee82ee", "#000000"];
+
+const colors = [
+    { name: "white", hex: "ffffff" },
+    { name: "black", hex: "000000" },
+    { name: "red", hex: "ff0000" },
+    { name: "orange", hex: "ffa500" },
+    { name: "yellow", hex: "ffff00" },
+    { name: "green", hex: "008000" },
+    { name: "blue", hex: "0000ff" },
+    { name: "purple", hex: "4b0082" },
+    { name: "pink", hex: "ee82ee" }
+];
+
+const command = "msi-perkeyrgb --model GS65";
 
 function run_command(command) {
     // https://gjs.guide/guides/gio/subprocesses.html#synchronous-execution
@@ -74,9 +87,19 @@ class Indicator extends PanelMenu.Button {
         for (let preset of presets) {
             let presetItem = new PopupMenu.PopupMenuItem(preset);
             presetItem.connect('activate', () => {
-                run_command('msi-perkeyrgb --model GS65 --preset ' + preset);
+                run_command(command + ' -p ' + preset);
             });
             presetsMenu.menu.addMenuItem(presetItem);
+        }
+
+        let colorsMenu = new PopupMenu.PopupSubMenuMenuItem('Colors');
+        this.menu.addMenuItem(colorsMenu);
+        for (let color of colors) {
+            let colorItem = new PopupMenu.PopupMenuItem(color.name[0].toUpperCase() + color.name.slice(1));
+            colorItem.connect('activate', () => {
+                run_command(command + ' -s ' + color.hex);
+            });
+            colorsMenu.menu.addMenuItem(colorItem);
         }
     }
 });
